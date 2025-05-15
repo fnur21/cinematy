@@ -1,0 +1,161 @@
+body{
+    background-color: rgb(62, 61, 63);
+    margin: 0px;
+    
+
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
+    height: 100vh;
+}
+
+
+.row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-items: center;
+}
+
+.seat{
+    font-size: 40px;
+    margin-left: 25px;
+   margin-top: 25px;
+   color:rgb(148, 173, 138);
+}
+
+/* bu kod bloğunda kırmızı olanların yani .full sınıfına ait olanların üzerine gelince logolar büyümüyor yani hover olmuyor*/
+.seat:not(.full):hover{
+    transform: scale(1.2);
+}
+
+.title{
+    color: rgb(148, 173, 138);
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.movieMain{
+    margin-top: 40px;
+
+}
+#selectMovie{
+    width:200px;
+    padding: 5px;
+    border-radius: 40px;
+    background-color: rgb(101, 101, 100);
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#selectMovie > option{
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+background-color: rgb(112, 112, 107);
+color: rgb(35, 38, 37);
+}
+
+/* koltuk statüleri */
+.seatStatusMain{
+    margin-top: 30px;
+    font-size: 20px;
+ 
+}
+
+.emptySeat{
+    color:rgb(148, 173, 138);
+    font-size: 20px;
+}
+.selectedSeat{
+    color:rgb(101, 182, 25);
+    font-size: 20px;
+}
+.fullSeat{
+    color:rgb(224, 17, 17);
+    font-size: 20px;
+}
+
+.seatStatusMain > .row > div{
+    margin-top: 10px;
+}
+.resultTextMain{
+margin-top: 20px;
+}
+
+/* bu olayın mantığı şu annesi resultTextMain olan p etiketini kapsar */
+/* eğer sen > işareti koymazsan tüm p etiketlerini alır */
+.resultTextMain > p{
+color: aliceblue;
+font-size: 20px;
+}
+
+/* sonuç metni */
+.resultTextMain > p > span{
+    color: rgb(101, 182, 25);
+}
+
+/* butonlar */
+
+.buttonMain{
+    margin-top: 15px;
+}
+
+#buybutton{
+    width: 100px;
+    padding: 5px;
+    border-radius: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+    background-color: rgb(202, 203, 201);
+   
+}
+
+#clearbutton{
+    width: 100px;
+    padding: 5px;
+    border-radius: 20px;
+     font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+    background-color: rgb(202, 203, 201);
+}
+
+/* sahne */
+
+.screen{
+width: 650px;
+height: 140px;
+margin-top: 40px;
+margin-bottom: 50px;
+background-color:rgb(124, 122, 121);
+border-radius: 20px;
+box-shadow: 2px 4px 8px rgb(7, 1, 1);
+ }
+
+
+ .screenTitle{
+    margin: 0px;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    align-items: center;
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+
+ }
+
+ /* koltuk renkleri */
+ .full{
+     color:rgb(224, 17, 17);
+ }
+ .empty{
+     color:rgb(148, 173, 138);
+ }
+
+ .selected{
+      color:rgb(101, 182, 25);
+ }
