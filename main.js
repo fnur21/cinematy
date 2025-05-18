@@ -4,10 +4,11 @@ const container = document.querySelector(".container");
 const selectMovie = document.querySelector("#selectMovie");
 const count = document.querySelector("#count");
 const amount = document.querySelector("#amount");
-// burada ".seats" yerine ".seat" olabilir, HTML'de kontrol etmen iyi olur
+const clearButton = document.querySelector("#clearbutton");
 const seats = Array.from(document.querySelectorAll(".seat"));
-const buyButton = document.querySelector("#buyButton");
-runEventListeners()
+const buyButton = document.querySelector("#buybutton");
+
+runEventListeners();
 
 // eğer biz en baz kısım olan container kısmındaki seat sınıflarından birine click eventi yaparsak o zaman koltuğun renginin değişmesini istiyoruz
 
@@ -16,14 +17,21 @@ function runEventListeners() {
     selectMovie.addEventListener("change", changeMovie); // burda dedik ki selectMovie kısmından eğer değişim olursa başka film seçersek biz changeMovie metodunu çalıştır . o metot da tekrar calculate metodunu çalıştıracak
     document.addEventListener("DOMContentLoaded", runPageLoaded);
     buyButton.addEventListener("click", buyTicket);
+    clearButton.addEventListener("click", clearAll);
 }
 
 function runPageLoaded() {
+    // sayfa yüklendiğinde  local storageden bana seçili olan koltukları getir
     const selectedSeatsIndex = Storagex.getSelectedSeatsFromStorage();
+    // Local storage’tan “dolu (satılmış)” koltuk indekslerini al
     const fullSeatsIndex = Storagex.getFullSeatsFromStorage();
 
+
+    // Tüm koltuk elemanlarını (seats NodeList’i) döner
     seats.forEach((seat, index) => {
+        // Eğer bu koltuğun indeksi, seçili koltuklar listesinde varsa…
         if (selectedSeatsIndex.includes(index)) {
+            //   …koltuğa “selected” sınıfını ekle 
             seat.classList.add("selected");
         }
     })
@@ -34,7 +42,9 @@ function runPageLoaded() {
         }
     })
 
+    // *Seçili film (bilet fiyatı) indeksini local storage’tan al
     selectMovie.selectedIndex = Storagex.getSelectedMovieIndexFromStorage();
+    //* Seçili koltuk sayısı ve toplam ücreti yeniden hesapla‑göste
     calculate();
 }
 
@@ -46,12 +56,13 @@ function select(e) {
         selectedElement.classList.toggle("selected");
         calculate();
         saveSelectedSeatsIndexToStorage(); // seçimi kaydetmeyi unutma
+        saveSelectedMovieIndexToStorage();
     }
 }
 
 function changeMovie() {
     calculate();
-    saveSelectedSeatsIndexToStorage();
+    saveSelectedMovieIndexToStorage();
 }
 
 function getSelectedSeats() {
@@ -73,16 +84,50 @@ function saveSelectedSeatsIndexToStorage() {
     const selectedSeatsIndex = getSelectedSeatsIndex();
     Storagex.addSelectedSeatToStorage(selectedSeatsIndex);
 }
+function saveSelectedMovieIndexToStorage(){
+    const selectedMovieIndex = selectMovie.selectedIndex;
+    Storagex.addSelectedMovieToStorage(selectedMovieIndex);
+}
+
 
 function calculate() {
-    const SelectedSeatsCount = getSelectedSeats().length;
+    const selectedSeatsCount = getSelectedSeats().length;
     // const price = selectMovie.options[selectMovie.selectedIndex].value;
     const price = selectMovie.value;
-    count.textContent = SelectedSeatsCount;
-    amount.textContent = price * SelectedSeatsCount;
+    count.textContent = selectedSeatsCount;
+    amount.textContent = price * selectedSeatsCount;
 }
 
-// buyTicket fonksiyonu eksik görünüyor, onu da eklemelisin eğer varsa
 function buyTicket() {
-    alert("Bilet satın alma işlemi başarılı!"); // örnek basit uyarı
+    if(confirm("satın almak istiyor musunuz?")){
+       const selectedSeats= getSelectedSeats();
+        const selectedSeatsIndex= getSelectedSeatsIndex();
+       selectedSeats.forEach(seat => {
+        seat.classList.remove("selected");
+    seat.classList.add("full");
+    });
+       Storagex.addFullSeatToStorage(selectedSeatsIndex);
+       Storagex.addSelectedSeatToStorage(getSelectedSeatsIndex());
+
+     
 }
+}
+function clearAll() {
+  if (!confirm("Tüm seçimleri silmek istediğinize emin misiniz?")) return;
+
+  /* Local storage temizle */
+  Storagex.clearStorage();     
+
+  /* Arayüz temizle */
+  seats.forEach(seat => seat.classList.remove("selected", "full"));
+
+  /*  Film seçimini varsayılana çek */
+  selectMovie.selectedIndex = 0;
+
+  /* Sayaçları sıfırla */
+  calculate();                
+}
+
+
+
+
